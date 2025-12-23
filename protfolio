@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frost Portfolio - Sheldon | Web Developer &amp; AI Specialist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0f;
+      color: #ffffff;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    
+    .orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    /* Custom Cursor */
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #00f0ff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transition: transform 0.15s ease, border-color 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+    }
+    
+    .custom-cursor.hover {
+      transform: scale(1.8);
+      border-color: #a855f7;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.8);
+    }
+    
+    /* Glow Effects */
+    .glow-text {
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.8),
+                   0 0 20px rgba(0, 240, 255, 0.6),
+                   0 0 30px rgba(0, 240, 255, 0.4);
+    }
+    
+    .glow-box {
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3),
+                  inset 0 0 20px rgba(0, 240, 255, 0.1);
+    }
+    
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Animated Background Grid */
+    .grid-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+      z-index: 0;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    
+    /* Neural Network Animation */
+    .neural-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .neural-node {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00f0ff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+    
+    /* Scroll Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Progress Bars */
+    .skill-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #00f0ff, #a855f7);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+      transition: width 1.5s ease;
+    }
+    
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.5s ease;
+    }
+    
+    .loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .loader {
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(0, 240, 255, 0.2);
+      border-top: 4px solid #00f0ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, #00f0ff, #a855f7);
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: 2px solid #00f0ff;
+      color: #00f0ff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(0, 240, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    /* Card Hover Effects */
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.3);
+    }
+    
+    /* Info Box Animation */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .info-box {
+      animation: slideIn 0.5s ease;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full"><!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+   <div>
+    <div class="loader"></div>
+    <p class="text-center mt-4 text-cyan-400 orbitron">INITIALIZING SYSTEM...</p>
+   </div>
+  </div><!-- Custom Cursor -->
+  <div class="custom-cursor" id="customCursor"></div><!-- Animated Background -->
+  <div class="grid-background"></div><!-- Main Container -->
+  <div class="relative z-10 h-full overflow-y-auto w-full" id="mainContainer"><!-- Navigation -->
+   <nav class="fixed top-0 left-0 right-0 z-50 glass" style="background: rgba(10, 10, 15, 0.8);">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+     <div class="text-2xl font-bold orbitron glow-text">
+      SHELDON
+     </div>
+     <div class="hidden md:flex gap-8"><a href="#hero" class="hover:text-cyan-400 transition-colors cursor-pointer">Home</a> <a href="#about" class="hover:text-cyan-400 transition-colors cursor-pointer">About</a> <a href="#skills" class="hover:text-cyan-400 transition-colors cursor-pointer">Skills</a> <a href="#projects" class="hover:text-cyan-400 transition-colors cursor-pointer">Projects</a> <a href="#contact" class="hover:text-cyan-400 transition-colors cursor-pointer">Contact</a>
+     </div>
+    </div>
+   </nav><!-- Hero Section -->
+   <section id="hero" class="relative min-h-screen flex items-center justify-center px-6">
+    <div class="neural-bg" id="neuralBg"></div>
+    <div class="relative z-10 text-center max-w-5xl">
+     <h1 class="hero-title text-6xl md:text-7xl font-bold mb-6 orbitron glow-text fade-in" id="heroHeadline">Frost Portfolio</h1>
+     <div class="text-xl md:text-2xl mb-8 text-cyan-400 fade-in" id="typewriter"><span id="typewriterText"></span><span class="animate-pulse">|</span>
+     </div>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in"><button class="btn-primary" id="ctaPrimary">View My Work</button> <button class="btn-secondary" id="ctaSecondary">Contact Me</button>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="min-h-screen py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-5xl font-bold text-center mb-16 orbitron glow-text fade-in">About Me</h2>
+     <div class="max-w-4xl mx-auto glass p-12 rounded-2xl fade-in">
+      <div class="text-center mb-8">
+       <div class="text-6xl mb-6">
+        👨‍💻
+       </div>
+       <h3 class="text-3xl font-bold mb-6 text-cyan-400">Hi, I'm Sheldon</h3>
+      </div>
+      <div class="space-y-6 text-lg text-gray-300 leading-relaxed">
+       <p>I'm a passionate web developer specializing in creating stunning, modern websites and web applications. My expertise lies in building beautiful, functional, and user-friendly digital experiences that bring ideas to life.</p>
+       <p>What sets me apart is my deep knowledge of AI integration. I leverage cutting-edge artificial intelligence technologies to create intelligent, automated solutions that not only look amazing but also work smarter. From AI-powered chatbots to automated workflows, I build websites that do more than just display information—they actively help your business grow.</p>
+       <p>I excel at combining the latest web technologies with AI capabilities to deliver websites and applications that are both visually stunning and incredibly powerful. Whether you need a sleek portfolio, a dynamic web app, or an AI-enhanced business solution, I have the skills and experience to make it happen.</p>
+       <p class="text-cyan-400 font-semibold">Let's work together to create something extraordinary!</p>
+      </div>
+      <div class="mt-12 pt-8 border-t border-cyan-400 border-opacity-20">
+       <div class="flex flex-col sm:flex-row gap-4 justify-center"><button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"> Get In Touch </button> <button class="btn-secondary" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })"> View My Projects </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Skills Section -->
+   <section id="skills" class="min-h-screen py-20 px-6 bg-black bg-opacity-30">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="text-5xl font-bold text-center mb-16 orbitron glow-text fade-in">Tech Stack &amp; Skills</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-12"><!-- AI Skills -->
+      <div class="glass p-8 rounded-2xl fade-in">
+       <h3 class="text-2xl font-bold mb-6 text-cyan-400">AI &amp; Machine Learning</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between mb-2"><span>LLMs &amp; Prompt Engineering</span> <span class="text-cyan-400">95%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%" data-width="95"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Natural Language Processing</span> <span class="text-cyan-400">90%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%" data-width="90"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>AI Automation</span> <span class="text-cyan-400">92%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%" data-width="92"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>AI Agents &amp; Workflows</span> <span class="text-cyan-400">88%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%" data-width="88"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Development Skills -->
+      <div class="glass p-8 rounded-2xl fade-in">
+       <h3 class="text-2xl font-bold mb-6 text-purple-400">Full-Stack Development</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between mb-2"><span>JavaScript / TypeScript</span> <span class="text-purple-400">93%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%; background: linear-gradient(90deg, #a855f7, #ec4899);" data-width="93"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>React.js / Node.js</span> <span class="text-purple-400">91%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%; background: linear-gradient(90deg, #a855f7, #ec4899);" data-width="91"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Python</span> <span class="text-purple-400">89%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%; background: linear-gradient(90deg, #a855f7, #ec4899);" data-width="89"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>MongoDB / SQL</span> <span class="text-purple-400">87%</span>
+         </div>
+         <div class="skill-bar">
+          <div class="skill-progress" style="width: 0%; background: linear-gradient(90deg, #a855f7, #ec4899);" data-width="87"></div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Tech Icons -->
+     <div class="mt-16 grid grid-cols-3 md:grid-cols-6 gap-6 fade-in">
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        ⚛️
+       </div>
+       <p class="text-sm">React</p>
+      </div>
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        📦
+       </div>
+       <p class="text-sm">Node.js</p>
+      </div>
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        🐍
+       </div>
+       <p class="text-sm">Python</p>
+      </div>
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        🍃
+       </div>
+       <p class="text-sm">MongoDB</p>
+      </div>
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        🐳
+       </div>
+       <p class="text-sm">Docker</p>
+      </div>
+      <div class="glass p-6 rounded-xl text-center hover:scale-110 transition-transform">
+       <div class="text-4xl mb-2">
+        🔥
+       </div>
+       <p class="text-sm">OpenAI</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Projects Section -->
+   <section id="projects" class="min-h-screen py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-5xl font-bold text-center mb-16 orbitron glow-text fade-in">Featured Projects</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="glass p-6 rounded-2xl card fade-in">
+       <div class="h-48 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl mb-4 flex items-center justify-center text-6xl">
+        📚
+       </div>
+       <h3 class="text-2xl font-bold mb-2">Student Productivity App</h3>
+       <p class="text-gray-400 mb-4">Complete productivity suite with to-do list, Pomodoro timer, and notes - built for students</p>
+       <div class="flex gap-2 flex-wrap mb-4"><span class="px-3 py-1 bg-cyan-500 bg-opacity-20 text-cyan-400 rounded-full text-sm">JavaScript</span> <span class="px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 rounded-full text-sm">HTML/CSS</span> <span class="px-3 py-1 bg-pink-500 bg-opacity-20 text-pink-400 rounded-full text-sm">Responsive</span>
+       </div><button class="btn-secondary w-full" onclick="window.open('https://boards2026.my.canva.site/copy-of-student-productivity-app-to-do-list-pomodoro-timer-notes', '_blank', 'noopener,noreferrer')"> View Live Demo </button>
+      </div>
+      <div class="glass p-6 rounded-2xl card fade-in">
+       <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl mb-4 flex items-center justify-center text-6xl">
+        🤖
+       </div>
+       <h3 class="text-2xl font-bold mb-2">AI-Powered Chatbot</h3>
+       <p class="text-gray-400 mb-4">Intelligent chatbot with natural language processing and context awareness</p>
+       <div class="flex gap-2 flex-wrap mb-4"><span class="px-3 py-1 bg-cyan-500 bg-opacity-20 text-cyan-400 rounded-full text-sm">AI/ML</span> <span class="px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 rounded-full text-sm">React</span> <span class="px-3 py-1 bg-pink-500 bg-opacity-20 text-pink-400 rounded-full text-sm">Node.js</span>
+       </div><button class="btn-secondary w-full">View Details</button>
+      </div>
+      <div class="glass p-6 rounded-2xl card fade-in">
+       <div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl mb-4 flex items-center justify-center text-6xl">
+        🌐
+       </div>
+       <h3 class="text-2xl font-bold mb-2">Modern Web Portfolio</h3>
+       <p class="text-gray-400 mb-4">Sleek, animated portfolio with glassmorphism design and smooth interactions</p>
+       <div class="flex gap-2 flex-wrap mb-4"><span class="px-3 py-1 bg-cyan-500 bg-opacity-20 text-cyan-400 rounded-full text-sm">Tailwind</span> <span class="px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-400 rounded-full text-sm">Animations</span> <span class="px-3 py-1 bg-pink-500 bg-opacity-20 text-pink-400 rounded-full text-sm">Modern UI</span>
+       </div><button class="btn-secondary w-full">View Details</button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="min-h-screen py-20 px-6 bg-black bg-opacity-30">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="text-5xl font-bold text-center mb-16 orbitron glow-text fade-in" id="contactTitle">Let's Build Something Amazing</h2><!-- Info Box -->
+     <div class="glass p-6 rounded-2xl mb-8 fade-in border-2 border-cyan-400 border-opacity-40 info-box">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl flex-shrink-0">
+        📩
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-bold text-cyan-400 mb-3">📊 Where Your Messages Go</h3>
+        <div class="space-y-2 text-gray-300">
+         <p class="flex items-start gap-2"><span class="text-cyan-400 mt-1">✓</span> <span>When you submit this form, your message is <strong class="text-white">automatically saved to my Canva Sheet</strong></span></p>
+         <p class="flex items-start gap-2"><span class="text-cyan-400 mt-1">✓</span> <span>I receive instant notifications and check messages regularly</span></p>
+         <p class="flex items-start gap-2"><span class="text-cyan-400 mt-1">✓</span> <span>You'll get a reply at <strong class="text-cyan-400">malhotramadhav27@gmail.com</strong> within 24 hours</span></p>
+        </div>
+        <div class="mt-4 p-3 bg-purple-500 bg-opacity-10 rounded-lg border border-purple-400 border-opacity-30">
+         <p class="text-sm text-purple-300"><strong>⚡ Want instant replies?</strong> Message me on Discord: <strong class="text-purple-400">sheldon147_</strong></p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="glass p-10 rounded-2xl fade-in">
+      <form id="contactForm" class="space-y-6">
+       <div><label for="name" class="block mb-2 text-cyan-400 font-semibold">Your Name *</label> <input type="text" id="name" name="name" required class="w-full p-4 bg-black bg-opacity-50 border border-cyan-400 rounded-lg focus:outline-none focus:border-purple-400 transition-colors text-white" placeholder="John Doe">
+       </div>
+       <div><label for="email" class="block mb-2 text-cyan-400 font-semibold">Your Email * <span class="text-sm font-normal text-gray-400">(I'll reply here)</span></label> <input type="email" id="email" name="email" required class="w-full p-4 bg-black bg-opacity-50 border border-cyan-400 rounded-lg focus:outline-none focus:border-purple-400 transition-colors text-white" placeholder="john@example.com">
+       </div>
+       <div><label for="message" class="block mb-2 text-cyan-400 font-semibold">Your Message *</label> <textarea id="message" name="message" required rows="6" class="w-full p-4 bg-black bg-opacity-50 border border-cyan-400 rounded-lg focus:outline-none focus:border-purple-400 transition-colors resize-none text-white" placeholder="Tell me about your project..."></textarea>
+       </div><button type="submit" class="btn-primary w-full text-lg" id="contactButton"> Send Message </button>
+       <div id="formStatus" class="text-center hidden"></div>
+      </form>
+      <div class="mt-12 pt-8 border-t border-cyan-400 border-opacity-20">
+       <div class="text-center mb-6">
+        <p class="text-lg text-gray-300 mb-2">Prefer Discord?</p>
+        <p class="text-2xl font-bold text-cyan-400">sheldon147_</p>
+        <p class="text-sm text-gray-400 mt-2">DM me to discuss your project!</p>
+       </div>
+       <div class="flex flex-col sm:flex-row gap-4 justify-center"><button class="btn-primary flex items-center justify-center gap-2" onclick="window.open('https://discord.com', '_blank', 'noopener,noreferrer')"> <span>💬</span> Message on Discord </button> <a href="mailto:malhotramadhav27@gmail.com" class="btn-secondary flex items-center justify-center gap-2" style="text-decoration: none;"> <span>📧</span> Email Directly </a>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-12 px-6 border-t border-cyan-400 border-opacity-20">
+    <div class="max-w-7xl mx-auto text-center">
+     <div class="flex justify-center gap-6 mb-6"><a href="#" class="text-3xl hover:scale-110 transition-transform">💼</a> <a href="#" class="text-3xl hover:scale-110 transition-transform">🔗</a> <a href="mailto:malhotramadhav27@gmail.com" class="text-3xl hover:scale-110 transition-transform">📧</a> <a href="#" class="text-3xl hover:scale-110 transition-transform">🐙</a>
+     </div>
+     <p class="text-gray-400">© 2024 Frost Portfolio - Sheldon. Built with Modern Tech &amp; AI.</p>
+     <p class="text-sm text-gray-500 mt-2">Contact: malhotramadhav27@gmail.com | Discord: sheldon147_</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Default Config
+    const defaultConfig = {
+      hero_headline: "Sheldon's Portfolio",
+      hero_cta_primary: "View My Work",
+      hero_cta_secondary: "Contact Me",
+      contact_title: "Let's Build Something Amazing",
+      contact_button: "Send Message",
+      background_color: "#0a0a0f",
+      surface_color: "#ffffff",
+      text_color: "#ffffff",
+      primary_action_color: "#00f0ff",
+      secondary_action_color: "#a855f7",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    // Initialize config reference
+    let config = {};
+
+    // Data SDK Handler
+    const dataHandler = {
+      onDataChanged(data) {
+        console.log('Contact messages received:', data.length);
+      }
+    };
+
+    // Initialize Data SDK
+    async function initDataSdk() {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Data SDK initialization failed');
+        }
+      }
+    }
+
+    // Render function to update UI based on config
+    async function onConfigChange(newConfig) {
+      const customFont = newConfig.font_family || defaultConfig.font_family;
+      const baseSize = newConfig.font_size || defaultConfig.font_size;
+      const baseFontStack = 'sans-serif';
+      
+      // Update background
+      document.body.style.background = newConfig.background_color || defaultConfig.background_color;
+      
+      // Update fonts
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      // Update font sizes proportionally
+      const heroTitle = document.querySelector('.hero-title');
+      if (heroTitle) heroTitle.style.fontSize = `${baseSize * 3.5}px`;
+      
+      document.querySelectorAll('h2').forEach(el => {
+        el.style.fontSize = `${baseSize * 2.5}px`;
+      });
+      
+      document.querySelectorAll('h3').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.5}px`;
+      });
+      
+      document.querySelectorAll('p, span, a, label, input, textarea, button').forEach(el => {
+        if (!el.style.fontSize) {
+          el.style.fontSize = `${baseSize}px`;
+        }
+      });
+      
+      // Update editable text content
+      const heroHeadline = document.getElementById('heroHeadline');
+      if (heroHeadline) {
+        heroHeadline.textContent = newConfig.hero_headline || defaultConfig.hero_headline;
+      }
+      
+      const ctaPrimary = document.getElementById('ctaPrimary');
+      if (ctaPrimary) {
+        ctaPrimary.textContent = newConfig.hero_cta_primary || defaultConfig.hero_cta_primary;
+      }
+      
+      const ctaSecondary = document.getElementById('ctaSecondary');
+      if (ctaSecondary) {
+        ctaSecondary.textContent = newConfig.hero_cta_secondary || defaultConfig.hero_cta_secondary;
+      }
+      
+      const contactTitle = document.getElementById('contactTitle');
+      if (contactTitle) {
+        contactTitle.textContent = newConfig.contact_title || defaultConfig.contact_title;
+      }
+      
+      const contactButton = document.getElementById('contactButton');
+      if (contactButton) {
+        contactButton.textContent = newConfig.contact_button || defaultConfig.contact_button;
+      }
+    }
+
+    // Element SDK capabilities
+    const capabilities = {
+      recolorables: [
+        {
+          get: () => config.background_color || defaultConfig.background_color,
+          set: (value) => {
+            config.background_color = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          }
+        },
+        {
+          get: () => config.surface_color || defaultConfig.surface_color,
+          set: (value) => {
+            config.surface_color = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          }
+        },
+        {
+          get: () => config.text_color || defaultConfig.text_color,
+          set: (value) => {
+            config.text_color = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        },
+        {
+          get: () => config.primary_action_color || defaultConfig.primary_action_color,
+          set: (value) => {
+            config.primary_action_color = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          }
+        },
+        {
+          get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+          set: (value) => {
+            config.secondary_action_color = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (value) => {
+          config.font_family = value;
+          if (window.elementSdk) {
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (value) => {
+          config.font_size = value;
+          if (window.elementSdk) {
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      }
+    };
+
+    // Map to edit panel values
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["hero_headline", config.hero_headline || defaultConfig.hero_headline],
+        ["hero_cta_primary", config.hero_cta_primary || defaultConfig.hero_cta_primary],
+        ["hero_cta_secondary", config.hero_cta_secondary || defaultConfig.hero_cta_secondary],
+        ["contact_title", config.contact_title || defaultConfig.contact_title],
+        ["contact_button", config.contact_button || defaultConfig.contact_button]
+      ]);
+    }
+
+    // Initialize Element SDK
+    async function initElementSdk() {
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities: () => capabilities,
+          mapToEditPanelValues
+        });
+        
+        config = window.elementSdk.config;
+        await onConfigChange(config);
+      }
+    }
+
+    // Initialize both SDKs
+    Promise.all([initElementSdk(), initDataSdk()]).then(() => {
+      console.log('SDKs initialized');
+    });
+
+    // Custom Cursor
+    const cursor = document.getElementById('customCursor');
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.2;
+      cursorY += (mouseY - cursorY) * 0.2;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Cursor hover effect
+    document.querySelectorAll('button, a, input, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Neural Network Background
+    function createNeuralNetwork() {
+      const container = document.getElementById('neuralBg');
+      const nodeCount = 30;
+      
+      for (let i = 0; i < nodeCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'neural-node';
+        node.style.left = Math.random() * 100 + '%';
+        node.style.top = Math.random() * 100 + '%';
+        node.style.animationDelay = Math.random() * 3 + 's';
+        container.appendChild(node);
+      }
+    }
+    createNeuralNetwork();
+
+    // Typewriter Effect
+    const phrases = [
+      'Web Developer • AI Integration Specialist',
+      'Building Stunning Websites & Web Apps',
+      'Modern UI/UX • AI-Powered Solutions'
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeWriter() {
+      const element = document.getElementById('typewriterText');
+      const currentPhrase = phrases[phraseIndex];
+      
+      if (!isDeleting && charIndex < currentPhrase.length) {
+        element.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        setTimeout(typeWriter, 50);
+      } else if (isDeleting && charIndex > 0) {
+        element.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(typeWriter, 30);
+      } else if (!isDeleting && charIndex === currentPhrase.length) {
+        setTimeout(() => { isDeleting = true; typeWriter(); }, 2000);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(typeWriter, 500);
+      }
+    }
+    setTimeout(typeWriter, 1000);
+
+    // Fade In Animation on Scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Skill Bar Animation
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bars = entry.target.querySelectorAll('.skill-progress');
+          bars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width + '%';
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.glass').forEach(el => {
+      if (el.querySelector('.skill-progress')) {
+        skillObserver.observe(el);
+      }
+    });
+
+    // Smooth Scroll for Navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Contact Form
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = 'Saving to Canva Sheet...';
+      submitButton.disabled = true;
+      
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        timestamp: new Date().toISOString(),
+        status: 'new'
+      };
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(formData);
+        
+        if (result.isOk) {
+          formStatus.innerHTML = `
+            <div class="glass p-6 rounded-lg border-2 border-green-400 border-opacity-50">
+              <div class="text-4xl mb-3">✅</div>
+              <p class="text-xl font-bold text-green-400 mb-3">Message Saved Successfully!</p>
+              <p class="text-gray-300 mb-2">Your message has been stored in my Canva Sheet.</p>
+              <p class="text-cyan-400 font-semibold">I'll reply to <strong>${formData.email}</strong> within 24 hours!</p>
+              <p class="text-sm text-gray-400 mt-3">Need a faster response? DM me on Discord: <strong class="text-purple-400">sheldon147_</strong></p>
+            </div>
+          `;
+          formStatus.classList.remove('hidden');
+          contactForm.reset();
+        } else {
+          formStatus.innerHTML = `
+            <div class="glass p-6 rounded-lg border-2 border-red-400 border-opacity-50">
+              <div class="text-4xl mb-3">❌</div>
+              <p class="text-xl font-bold text-red-400 mb-3">Failed to Save Message</p>
+              <p class="text-gray-300 mb-3">Please try one of these alternatives:</p>
+              <div class="space-y-2 text-left">
+                <p class="text-cyan-400">📧 Email: <strong>malhotramadhav27@gmail.com</strong></p>
+                <p class="text-purple-400">💬 Discord: <strong>sheldon147_</strong></p>
+              </div>
+            </div>
+          `;
+          formStatus.classList.remove('hidden');
+        }
+      } else {
+        formStatus.innerHTML = `
+          <div class="glass p-6 rounded-lg border-2 border-yellow-400 border-opacity-50">
+            <p class="text-yellow-400">⚠️ Data SDK not available. Please contact via email or Discord.</p>
+          </div>
+        `;
+        formStatus.classList.remove('hidden');
+      }
+      
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+      
+      setTimeout(() => {
+        formStatus.classList.add('hidden');
+      }, 10000);
+    });
+
+    // Loading Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+      }, 1500);
+    });
+
+    // CTA Button Actions
+    document.getElementById('ctaPrimary').addEventListener('click', () => {
+      document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    document.getElementById('ctaSecondary').addEventListener('click', () => {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b26ce3337d745af',t:'MTc2NjQ4MTg2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
